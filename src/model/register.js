@@ -3,27 +3,16 @@ import { Schema } from "mongoose";
 
 const registerAdminSchema = new Schema(
   {
-    company_name: {
-      type: "string",
-      trim: true,
-      required: [true, "Company name is compulsory."],
-    },
-    type_of_company: {
-      type: "string",
-      required: [true, "Indicate the type of company."],
-    },
     email: {
       type: "string",
       required: [true, "Please add a unique email address."],
       unique: true,
       trim: true,
     },
-    phone_number: {
-      type: "number",
-      trim: true,
-    },
     password: {
       type: "string",
+      required: [true, "Password is required."],
+      trim: true,
     },
     role: {
       type: "string",
@@ -38,4 +27,4 @@ const registerAdminSchema = new Schema(
   }
 );
 
-export default mongoose.model("admins", registerAdminSchema);
+export default mongoose.model("Admin", registerAdminSchema);

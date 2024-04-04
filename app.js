@@ -8,7 +8,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerOptions from "./src/config/swagger.js";
 import connectToMongoDb from "./src/config/db_config.js";
 import errorHandler from "./src/middleware/errorHandler.js";
-import authRouter from "./src/routes/v1/auth.js";
+import adminAuthRouter from "./src/routes/v1/auth.js";
 
 const PORT = process.env.PORT;
 
@@ -21,16 +21,11 @@ app.use(helmet());
 
 app.get("/", (req, res) => {
   res.status(200).send("Welcome to our RIS API homepage!");
-  res
-    .setHeader({
-      "Content-Type": "application/json",
-    })
-    .send();
 });
 
 const swaggerDocs = swaggerjsdoc(swaggerOptions);
 app.use(
-  "/api-docs",
+  "/api/v1/swagger",
   swaggerUi.serve,
   swaggerUi.setup(swaggerDocs, { explorer: true })
 );
@@ -39,7 +34,7 @@ app.get("/api/v1", (req, res) => {
   res.status(200).send("Welcome to our RIS v1 API homepage!");
 });
 
-app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/auth/admin", adminAuthRouter);
 
 app.use(errorHandler);
 
