@@ -2,9 +2,8 @@ import express from "express";
 import {
   adminLogin,
   adminRegister,
-  companyProfileCreate,
-} from "../../controller/auth.js";
-import authenticate from "../../middleware/authentication.js";
+  adminVerify,
+} from "../../controller/authAdmin.js";
 const adminAuthRouter = express.Router();
 
 /**
@@ -23,13 +22,38 @@ const adminAuthRouter = express.Router();
  *            required:
  *              - email
  *              - password
+ *              - first_name
+ *              - last_name
+ *              - company_name
+ *              - phone_number
  *            properties:
  *              email:
  *                type: string
- *                default: ris@gmail.com
+ *                default: graceEffiong@womentechsters.org
  *              password:
  *                type: string
  *                default: johnDoe20!@
+ *              role:
+ *                type: string
+ *                default: admin
+ *              first_name:
+ *                type: string
+ *                default: John
+ *              last_name:
+ *                type: string
+ *                default: Doe
+ *              company_name:
+ *                type: string
+ *                default: RIS competition
+ *              phone_number:
+ *                type: string
+ *                default: 08136285533
+ *              no_of_employees:
+ *                type: number
+ *                default: 3
+ *              industry:
+ *                type: string
+ *                default: Health
  *
  *     responses:
  *      201:
@@ -65,7 +89,7 @@ adminAuthRouter.post("/register", adminRegister);
  *            properties:
  *              email:
  *                type: string
- *                default: ris@gmail.com
+ *                default: graceEffiong@womentechsters.org
  *              password:
  *                type: string
  *                default: johnDoe20!@
@@ -86,6 +110,32 @@ adminAuthRouter.post("/login", adminLogin);
 
 /**
  * @swagger
+ *  /auth/admin/verify-email/{token}:
+ *   get:
+ *     tags:
+ *     - Authentication
+ *     summary: verify a user
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         schema:
+ *           type: string
+ *         required: true
+ *
+ *     responses:
+ *      200:
+ *        description: Successful
+ *      400:
+ *        description: Bad Request
+ *      404:
+ *        description: Not Found
+ *      500:
+ *        description: Server Error
+ */
+adminAuthRouter.get("/verify-email/:token", adminVerify);
+
+/**
+ * @swa
  *  /auth/admin/profile:
  *   post:
  *     tags:
@@ -140,6 +190,6 @@ adminAuthRouter.post("/login", adminLogin);
  *      500:
  *        description: Internal server error. Please try again later.
  */
-adminAuthRouter.post("/profile", authenticate, companyProfileCreate);
+// adminAuthRouter.post("/profile", authenticate, companyProfileCreate);
 
 export default adminAuthRouter;

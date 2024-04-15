@@ -8,7 +8,8 @@ import swaggerUi from "swagger-ui-express";
 import swaggerOptions from "./src/config/swagger.js";
 import connectToMongoDb from "./src/config/db_config.js";
 import errorHandler from "./src/middleware/errorHandler.js";
-import adminAuthRouter from "./src/routes/v1/auth.js";
+import adminAuthRouter from "./src/routes/v1/authAdmin.js";
+import contactRouter from "./src/routes/v1/contact.js";
 
 const PORT = process.env.PORT;
 
@@ -35,6 +36,7 @@ app.get("/api/v1", (req, res) => {
 });
 
 app.use("/api/v1/auth/admin", adminAuthRouter);
+app.use("/api/v1/contact", contactRouter);
 
 app.use(errorHandler);
 
