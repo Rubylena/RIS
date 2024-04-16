@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import Admin from "../model/register.js";
+import Admin from "../model/registerAdmin.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import sendEmail from "../emailer/sendMailer.js";
@@ -257,8 +257,7 @@ const adminRegister = asyncHandler(async (req, res) => {
     `,
   };
 
-  const verificationEmail = await sendEmail(details);
-  console.log(email, verificationEmail);
+  await sendEmail(details);
 
   if (adminRegister) {
     res.status(201).json({
@@ -282,10 +281,21 @@ const adminLogin = asyncHandler(async (req, res) => {
   const admin = await Admin.findOne({ email });
 
   if (admin) {
-    const verified = bcrypt.compare(password, admin.password);
+    const verified = await bcrypt.compare(password, admin.password);
     if (verified) {
       const token = jwt.sign(
-        { email: admin.email, id: admin._id, admin: true },
+        {
+          email: admin.email,
+          first_name: admin.first_name,
+          last_name: admin.last_name,
+          id: admin._id,
+          role: admin.role,
+          company_name: admin.company_name,
+          phone_number: admin.phone_number,
+          no_of_employees: admin.no_of_employees,
+          industry: admin.industry,
+          verified: admin.verified,
+        },
         process.env.TOKEN_ACCESS,
         { expiresIn: "2h" }
       );

@@ -11,7 +11,7 @@ const adminAuthRouter = express.Router();
  *  /auth/admin/register:
  *    post:
  *     tags:
- *     - Authentication
+ *     - Admin Authentication
  *     summary: Create a user
  *     requestBody:
  *      required: true
@@ -75,7 +75,7 @@ adminAuthRouter.post("/register", adminRegister);
  *  /auth/admin/login:
  *   post:
  *     tags:
- *     - Authentication
+ *     - Admin Authentication
  *     summary: log in a user
  *     requestBody:
  *      required: true
@@ -113,7 +113,7 @@ adminAuthRouter.post("/login", adminLogin);
  *  /auth/admin/verify-email/{token}:
  *   get:
  *     tags:
- *     - Authentication
+ *     - Admin Authentication
  *     summary: verify a user
  *     parameters:
  *       - in: path
@@ -133,63 +133,5 @@ adminAuthRouter.post("/login", adminLogin);
  *        description: Server Error
  */
 adminAuthRouter.get("/verify-email/:token", adminVerify);
-
-/**
- * @swa
- *  /auth/admin/profile:
- *   post:
- *     tags:
- *     - Company
- *     summary: Create a company profile
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *      required: true
- *      content:
- *        application/json:
- *           schema:
- *            type: object
- *            required:
- *              - company_name
- *              - type_of_company
- *              - phone_number
- *            properties:
- *              company_name:
- *                type: string
- *                default: RIS
- *              phone_number:
- *                type: string
- *                default: 08092345671
- *              industry:
- *                type: string
- *                default: technology
- *              no_of_employees:
- *                type: number
- *                default: 12
- *              locations:
- *                type: string
- *                default: ['now', 'there']
- *              current_ris:
- *                type: string
- *                default: HRseamless
- *              challenges:
- *                type: string
- *                default: None for now
- *              reason_for_use:
- *                type: string
- *                default: trial
- *     responses:
- *      201:
- *        description: Company profile created successfully
- *      400:
- *        description: Invalid request data. Please check company name, type, or phone number format.
- *      401:
- *        description: Unauthorized access. Login credentials are required.
- *      403:
- *        description: Forbidden action. User might lack permission to create a company profile.
- *      500:
- *        description: Internal server error. Please try again later.
- */
-// adminAuthRouter.post("/profile", authenticate, companyProfileCreate);
 
 export default adminAuthRouter;
